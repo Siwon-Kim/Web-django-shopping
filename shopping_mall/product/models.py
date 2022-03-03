@@ -5,7 +5,7 @@ class Product(models.Model):
     price = models.IntegerField()
     description = models.TextField()
     stock = models.IntegerField()
-    register_data = models.DateTimeField(auto_now_add=True)
+    register_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
