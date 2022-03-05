@@ -6,7 +6,7 @@ from user.decorators import login_required
 from .forms import RegisterForm
 from .models import Order
 
-
+@method_decorator(login_required, name='dispatch')
 class OrderCreate(FormView):
     form_class = RegisterForm
     success_url = '/product/'
