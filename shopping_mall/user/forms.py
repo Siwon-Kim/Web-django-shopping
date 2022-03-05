@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.hashers import check_password
 from .models import User
 
 class RegisterForm(forms.Form):
@@ -34,12 +34,6 @@ class RegisterForm(forms.Form):
             if password != re_password:
                 self.add_error('password', 'Passwords do not match!')
                 self.add_error('re_password', 'Passwords do not match!')
-            else:
-                user = User(
-                    email=email,
-                    password=make_password(password)
-                )
-                user.save()
 
 class LoginForm(forms.Form):
     email = forms.EmailField(
@@ -70,5 +64,3 @@ class LoginForm(forms.Form):
 
             if not check_password(password, user.password):
                 self.add_error('password', 'Wrong password')
-            else:
-                self.email = user.email

@@ -2,10 +2,11 @@ from django.db import models
 
 class User(models.Model):
     email = models.EmailField()
-    password = models.CharField(max_length=64)
+    password = models.CharField(max_length=128)
     level = models.CharField(max_length=8, choices=(
         ('admin', 'admin'),
-        ('user', 'user')
+        ('user', 'user'),
+        ('new', 'new'),
     ))
     register_date = models.DateTimeField(auto_now_add=True)
 
