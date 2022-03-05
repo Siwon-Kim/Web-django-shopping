@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
-from .forms import RegisterForm
-from .models import Order
 from django.views.generic.edit import FormView
 from django.views.generic import ListView
+from django.utils.decorators import method_decorator
+from user.decorators import login_required
+from .forms import RegisterForm
+from .models import Order
+
 
 class OrderCreate(FormView):
     form_class = RegisterForm
@@ -18,6 +21,7 @@ class OrderCreate(FormView):
         })
         return kw
 
+@method_decorator(login_required, name='dispatch')
 class OrderList(ListView):
     model = Order
     template_name = "order.html"
