@@ -30,6 +30,17 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+BATON = {
+    'SITE_HEADER': 'Back Office',
+    'SITE_TITLE': 'Back Office',
+    'INDEX_TITLE': 'Shopping Mall Admin Page',
+    #'SUPPORT_HREF': 'https://fastcampus.co.kr',
+    'SUPPORT_HREF' : 'mailto:siwonkim1108@gmail.com',
+    'COPYRIGHT': 'copyright © 2022 Siwon Kim',
+    'POWERED_BY': '<a href="https://fastcampus.co.kr">Fastcampus</a>',
+    'MENU_TITLE': 'Shopping Mall',
+}
+
 INSTALLED_APPS = [
     'baton',
     'django.contrib.admin',
@@ -43,7 +54,7 @@ INSTALLED_APPS = [
     'user',
     'order',
     'product',
-    
+
     'baton.autodiscover',
 ]
 
@@ -113,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EST'
 
 USE_I18N = True
 
