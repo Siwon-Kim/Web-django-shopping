@@ -1,11 +1,13 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from user.views import index, logout, RegisterView, LoginView
 from product.views import ProductList, ProductCreate, ProductDetail, ProductListAPI, ProductDetailAPI
 from order.views import OrderCreate, OrderList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('baton/', include('baton.urls')),
+
     path('', index),
     path('register/', RegisterView.as_view()),
     path('login/', LoginView.as_view()),
