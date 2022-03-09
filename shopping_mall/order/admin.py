@@ -31,12 +31,17 @@ refund.short_description = 'Refund'
 
 class OrderAdmin(admin.ModelAdmin):
     list_filter = ('status',)
-    list_display = ('user', 'product', 'styled_status')
+    list_display = ('user', 'product', 'styled_status', 'action')
+    change_list_template = 'admin/order_change_list.html'
 
     actions = [
         refund
     ]
     
+    def action(self, obj):
+        if obj.status != 'refund':
+            return format_html(f'<input type="button" value="Refund" onclick="order_refund_submit({obj.id})" class="btn btn-primary btn-sm">')
+
     def styled_status(self, obj):
         if obj.status == 'refund':
             return format_html(f'<span style="color:red">{obj.status}</span>')
@@ -46,6 +51,26 @@ class OrderAdmin(admin.ModelAdmin):
 
     def changelist_view(self, request, extra_context=None):
         extra_context = { 'title': 'Order List' }
+        
+        if request.method == 'POST':
+            obj_id = request.POST.get('obj_id')
+            if obj_id:
+                qs = Order.objects.filter(pk=obj_id)
+                ct = ContentType.objects.get_for_model(qs.model)
+                for obj in qs:
+                    obj.product.stock += obj.quantity
+                    obj.product.save()
+
+                    LogEntry.objects.log_action(
+                        user_id=request.user.id,
+                        content_type_id=ct.pk,
+                        object_id=obj.pk,
+                        object_repr='Refund Order',
+                        action_flag=CHANGE,
+                        change_message='Refund Order',
+                    )
+                qs.update(status='refund')
+
         return super().changelist_view(request, extra_context)
 
     def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
